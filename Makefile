@@ -1,19 +1,13 @@
-BINDINGS=canvas howler raphael box2d phonegap
-GENERATED=$(patsubst %, bindings/%, $(BINDINGS))
+NAME=phonegap
 
-.PHONY: clean examples
+.PHONY: clean
 
-all: $(GENERATED) examples
+all: $(NAME)
 
-bindings/%: descriptions/%.ml
-	ocamlfind ocamlopt -shared -package goji_lib $< -o descriptions/$*.cmxs
-	-if [ ! -e bindings ] ; then mkdir bindings ; fi
-	goji generate -d bindings descriptions/$*.cmxs
-	cd bindings/$* && export OCAMLPATH="../" && make && make doc
+$(NAME): description/$(NAME).ml
+	 ocamlfind ocamlopt -shared -package goji_lib $< -o description/$@.cmxs
+	 goji generate -d . description/$@.cmxs
+	 cd $@ && export OCAMLPATH="../" && make && make doc
 
 clean:
-	-rm -rf */*.cm* */*.o *~ */*~ bindings
-	cd examples && make clean
-
-examples:
-	export OCAMLPATH=$$(pwd)/bindings/ ; cd examples ; make
+	-rm -rf */*.cm* */*.o *~ */*~ $(NAME)

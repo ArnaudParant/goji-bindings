@@ -1,4 +1,4 @@
-goji-bindings
+goji-phonegap-bindings
 =============
 
-Sample binding descriptions for Goji
+First draft of phonegap binding
